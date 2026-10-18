@@ -1,0 +1,16 @@
+######
+### Create gtfs of gois
+######
+
+### get all gtfs
+while read gene; do
+
+zcat $indir/$stemgtf | grep -E "product \"$gene\""  | cat $outdir/"header_"$stemgtf".txt" -   > "${gene}$ext1"
+
+
+### sort gtf to get correct exon order for + and - string
+
+perl gff3sort.pl --precise --chr_order natural "${gene}$ext1" > "${gene}$ext2"
+rm "${gene}$ext1"
+
+done < "$gois"
